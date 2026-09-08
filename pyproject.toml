@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prover"
+version = "1.0.0"
+description = "Neural theorem prover: best-first search over Lean 4 proof states, evaluated on miniF2F."
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    # Policy adapters (cloud-LLM stand-in path; vLLM optional / GPU host only).
+    "anthropic>=0.40.0",
+    "openai>=1.55.0",
+    "google-genai>=0.3.0",
+    "keyring>=25.0",
+
+    # Retrieval (Phase 4).
+    "sentence-transformers>=3.0",
+    "rank-bm25>=0.2.2",
+
+    # Eval / data / logging.
+    "datasets>=3.0",
+    "pyyaml>=6.0",
+    "rich>=13.0",
+    "tqdm>=4.66",
+    "orjson>=3.10",
+
+    # Lean REPL interaction.
+    "pexpect>=4.9; sys_platform != 'win32'",
+    "pywinpty>=2.0; sys_platform == 'win32'",
+]
+
+[project.optional-dependencies]
+# vLLM goes here only — it has no Windows wheels and pulls heavy CUDA deps.
+gpu = ["vllm>=0.6.0"]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.24", "ruff>=0.6"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+markers = [
+    "live: spawns a real `lake env lean` compile (minutes each on this host). Excluded from the fast suite: run `pytest -m 'not live'` for a regression signal, `pytest -m live` deliberately.",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

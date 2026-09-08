@@ -1,0 +1,59 @@
+# Lean build artifacts
+lean/.lake/
+lean/build/
+lean/Generated/
+lean/lakefile.olean
+
+# Embedded Lean REPL project (cloned + built locally, see README)
+lean/.repl/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
+# Eval data and run output (large, regenerable, or third-party).
+# `data/*` rather than `data/`: a trailing-slash rule stops git descending,
+# so negations inside it are silently ineffective.
+data/*
+results/
+logs/
+
+# EXCEPTION: hand-written conjecture formalisations. These are NOT
+# regenerable eval data — they are authored Lean statements, each validated
+# against a real compile. The subset files are versioned with them so a run
+# is reproducible from the repo alone.
+!data/conjectures/
+!data/conjectures/*.lean
+!data/_conjectures.txt
+!data/_cramer.txt
+!data/_frankl.txt
+!data/_frankl_2e.txt
+!data/_frankl_conj.txt
+!data/_frankl_singleton.txt
+
+# EXCEPTION: the dev subset the README quickstart invokes. Five problem
+# ids; without it the first documented command fails on a fresh clone.
+!data/dev_subset.txt
+
+# EXCEPTION: the single-problem subset that `scripts/run.py` defaults to.
+!data/_b5_bare.txt
+
+# Local secrets / state
+.env
+.env.*
+*.local.json
+
+# Editor and local tool state
+.vscode/
+.idea/
+.claude/
+.cursor/
+.aider*
+
+# Partitioned-suite junit scratch (regenerable)
+scripts/_partition_junit/
